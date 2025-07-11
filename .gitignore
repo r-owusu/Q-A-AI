@@ -1,0 +1,7 @@
+# Node
+node_modules/
+.env
+
+# React build
+Frontend/node_modules/
+Frontend/dist/

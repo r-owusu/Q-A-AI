@@ -1081,7 +1081,7 @@ app.post("/ask", async (req, res) => {
     return res.status(400).json({ message: "No text provided" });
   }
 
-  if (!/Gerry/i.test(text)) {
+  if (!/Jerry/i.test(text)) {
     return res.json({
       text: "No explicit request for ChatGPT detected. Please mention 'ChatGPT' in your question.Do NOT include internal thoughts, reasoning, or any <think> tags. Only output the final answer.",
       audioUrl: null
@@ -1096,7 +1096,22 @@ ${lastSummary}
 
 Now the user asks: ${text}
 
-Please explain or elaborate as requested.
+You are Jerry, an AI assistant tasked with evaluating and responding to the answers provided earlier by another AI named Tom.
+
+Whenever the user asks you a question, you must assume that Tom has already answered that question earlier, and you (Jerry) have read and understood Tom’s answer.  
+
+Your job is to explicitly make reference to Tom’s answer in your response — as someone who has reviewed and analyzed what Tom wrote. You must make it clear to the user that you are commenting on what Tom already provided, not producing an independent answer.
+
+Specifically:
+- Start your response by explicitly mentioning Tom, for example: “I have read Tom’s answer to this question. He said…” or “According to Tom’s response…”
+- Then either confirm (agree with and affirm), or critique (disagree with and explain shortcomings) Tom’s answer, based on the information provided.
+- Always provide your reasoning in a clear, polite, and professional tone.
+- Always refer to yourself in first person as Jerry, and to the earlier AI as Tom.
+- If the question cannot reasonably be answered based on Tom’s summary, acknowledge this politely and explain why.
+
+Your response must *always* make it clear that it is based on reading and analyzing Tom’s earlier answer.
+Do not include any internal reasoning notes or thoughts — only output the final answer you would give to the user.
+
     `.trim();
 
     const alleRes = await axios.post(

@@ -24,6 +24,19 @@ const Summary: React.FC = () => {
     }
   };
 
+  const handleSaveAsPdf = async () => {
+  const res = await fetch('http://localhost:5000/save-pdf', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ markdown: summary })  // send the markdown
+  });
+  const data = await res.json();
+  if (data.pdfUrl) {
+    window.open(`http://localhost:5000${data.pdfUrl}`, '_blank');
+  }
+};
+
+
   const handleUpload = async () => {
     if (!file) return;
 
@@ -115,28 +128,49 @@ const Summary: React.FC = () => {
         <div className="summary">
           <h2>QUESTIONS AND ANSWERS:</h2>
           <div style={{ border: "solid", padding: "1opx" }}>
+          <button
+      onClick={handleSaveAsPdf}
+      style={{
+        marginTop: "10px",
+        padding: "8px 16px",
+        backgroundColor: "#4CAF50",
+        color: "white",
+        border: "none",
+        cursor: "pointer"
+      }}
+    >
+      📄 Save as PDF
+    </button>
             <ReactMarkdown>{summary}</ReactMarkdown>
           </div>
         </div>
       )}
 
       {audioUrl && (
-        <div className="audio">
-          <h3>Audio Summary:</h3>
-          <button
-            onClick={() => new Audio(audioUrl).play()}
-            style={{
-              fontSize: "2rem",
-              background: "none",
-              border: "none",
-              cursor: "pointer"
-            }}
-            title="Play Summary"
-          >
-            🔊
-          </button>
-        </div>
-      )}
+  <div className="audio">
+    <h3>Audio Summary:</h3>
+
+    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+      <audio controls src={audioUrl} style={{ width: "100%" }} />
+
+      <a
+        href={audioUrl}
+        download
+        style={{
+          display: "inline-block",
+          padding: "6px 12px",
+          background: "#28a745",
+          color: "#fff",
+          textDecoration: "none",
+          borderRadius: "4px"
+        }}
+      >
+        ⬇️ Download Summary Audio
+      </a>
+    </div>
+  </div>
+)}
+
 
       <hr />
 
@@ -165,7 +199,7 @@ const Summary: React.FC = () => {
           </div>
         )}
 
-        {answerAudioUrl && (
+        {/* {answerAudioUrl && (
           <div className="answer-audio">
             <h3>Answer Audio:</h3>
             <button
@@ -181,7 +215,34 @@ const Summary: React.FC = () => {
               🗣️
             </button>
           </div>
-        )}
+
+        )} */}
+
+{answerAudioUrl && (
+  <div className="answer-audio">
+    <h3>Answer Audio:</h3>
+
+    <audio controls src={answerAudioUrl} style={{ width: "100%" }} />
+
+    <a
+      href={answerAudioUrl}
+      download
+      style={{
+        display: "inline-block",
+        marginTop: "10px",
+        padding: "6px 12px",
+        background: "#28a745",
+        color: "#fff",
+        textDecoration: "none",
+        borderRadius: "4px"
+      }}
+    >
+      ⬇️ Download Answer Audio
+    </a>
+  </div>
+)}
+
+
       </div>
     </div>
   );

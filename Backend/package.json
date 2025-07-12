@@ -17,9 +17,11 @@
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "mammoth": "^1.9.1",
+    "markdown-pdf": "^11.0.0",
     "multer": "^2.0.1",
     "officeparser": "^5.2.0",
     "pdf-parse": "^1.1.1",
+    "pdf2json": "^3.1.6",
     "tesseract.js": "^6.0.1"
   }
 }
